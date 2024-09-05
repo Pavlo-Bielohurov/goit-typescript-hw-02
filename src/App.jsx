@@ -4,9 +4,11 @@ import ImageGallery from "./components/ImageGallery/imageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/loadMoreBtn";
 import Loader from "./components/Loader/loader";
 import ErrorMesange from "./components/ErrorMessage/eroorMessage";
+import ImageModal from "./components/ImageModal/imageModal";
 import { Toaster } from "react-hot-toast";
 
 import searchPhotos from "./Servers/api";
+import Modal from "react-modal";
 
 import "./App.css";
 
@@ -17,6 +19,22 @@ function App() {
   const [totalPages, setTotalPages] = useState(9999);
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImg, setModalImg] = useState(null);
+
+  Modal.setAppElement("#root");
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const newModalImg = (img) => {
+    setModalImg(img);
+  };
 
   const handleSubmit = (newTopic) => {
     setTopic(newTopic);
@@ -54,13 +72,18 @@ function App() {
     <>
       <SearchBar onSubmit={handleSubmit} />
       <Toaster />
-      <ImageGallery images={images} />
+      <ImageGallery
+        images={images}
+        openModal={openModal}
+        newModalImg={newModalImg}
+      />
       {loader && <Loader />}
       {error && <ErrorMesange />}
       {page >= totalPages && <b>END OF COLLECTION!!!!</b>}
       {images.length > 0 && !loader && page < totalPages && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
+      <ImageModal isOpen={modalOpen} isClose={closeModal} image={modalImg} />
     </>
   );
 }
