@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SearchBar from "./components/SearchBar/searchBar";
 import ImageGallery from "./components/ImageGallery/imageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/loadMoreBtn";
@@ -21,6 +21,7 @@ function App() {
   const [loader, setLoader] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState(null);
+  const loadMoreBtnRef = useRef(null);
 
   Modal.setAppElement("#root");
 
@@ -30,6 +31,7 @@ function App() {
 
   const closeModal = () => {
     setModalOpen(false);
+    setModalImg(null);
   };
 
   const newModalImg = (img) => {
@@ -59,11 +61,14 @@ function App() {
         setLoader(false);
       }
     }
-
-    console.log(page, topic);
-
     getImage();
   }, [page, topic]);
+
+  useEffect(() => {
+    if (images.length > 0 && page > 1) {
+      loadMoreBtnRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [images, page]);
 
   const handleLoadMore = () => {
     setPage(page + 1);
@@ -81,9 +86,11 @@ function App() {
       {error && <ErrorMesange />}
       {page >= totalPages && <b>END OF COLLECTION!!!!</b>}
       {images.length > 0 && !loader && page < totalPages && (
-        <LoadMoreBtn onClick={handleLoadMore} />
+        <LoadMoreBtn onClick={handleLoadMore} loadMoreBtnRef={loadMoreBtnRef} />
       )}
-      <ImageModal isOpen={modalOpen} isClose={closeModal} image={modalImg} />
+      {modalImg && (
+        <ImageModal isOpen={modalOpen} isClose={closeModal} image={modalImg} />
+      )}
     </>
   );
 }
