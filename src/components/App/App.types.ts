@@ -1,8 +1,8 @@
 export interface Image {
-  [x: string]: string | undefined;
+  alt_description: string | undefined;
   id: number;
   urls: {
-    [x: string]: string | undefined;
+    small: string | undefined;
     regular: string;
     small_s3: string;
   };
