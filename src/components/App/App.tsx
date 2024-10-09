@@ -1,27 +1,29 @@
+import Modal from "react-modal";
 import { useEffect, useState, useRef } from "react";
-import SearchBar from "./components/SearchBar/searchBar";
-import ImageGallery from "./components/ImageGallery/imageGallery";
-import LoadMoreBtn from "./components/LoadMoreBtn/loadMoreBtn";
-import Loader from "./components/Loader/loader";
-import ErrorMesange from "./components/ErrorMessage/eroorMessage";
-import ImageModal from "./components/ImageModal/imageModal";
 import { Toaster } from "react-hot-toast";
 
-import searchPhotos from "./Servers/api";
-import Modal from "react-modal";
+import SearchBar from "../SearchBar/searchBar";
+import ImageGallery from "../ImageGallery/imageGallery";
+import LoadMoreBtn from "../LoadMoreBtn/loadMoreBtn";
+import Loader from "../Loader/loader";
+import ErrorMesange from "../ErrorMessage/eroorMessage";
+import ImageModal from "../ImageModal/imageModal";
+import searchPhotos from "../../Servers/api";
+import { Image } from "./App.types";
 
 import "./App.css";
+import React from "react";
 
 function App() {
-  const [topic, setTopic] = useState("");
-  const [page, setPage] = useState(1);
-  const [images, setImages] = useState([]);
-  const [totalPages, setTotalPages] = useState(9999);
-  const [error, setError] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalImg, setModalImg] = useState(null);
-  const loadMoreBtnRef = useRef(null);
+  const [topic, setTopic] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [images, setImages] = useState<Image[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(9999);
+  const [error, setError] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalImg, setModalImg] = useState<Image | null>(null);
+  const loadMoreBtnRef = useRef<HTMLButtonElement>(null);
 
   Modal.setAppElement("#root");
 
@@ -34,11 +36,11 @@ function App() {
     setModalImg(null);
   };
 
-  const newModalImg = (img) => {
+  const newModalImg = (img: Image) => {
     setModalImg(img);
   };
 
-  const handleSubmit = (newTopic) => {
+  const handleSubmit = (newTopic: string) => {
     setTopic(newTopic);
     setPage(1);
     setImages([]);

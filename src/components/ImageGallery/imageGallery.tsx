@@ -1,7 +1,19 @@
+import React from "react";
+import { Image } from "../App/App.types";
 import ImageCard from "../ImageCard/imageCard";
 import css from "./imageGallery.module.css";
 
-export default function imageGallery({ images, openModal, newModalImg }) {
+interface ImageGalleryProps {
+  images: Image[];
+  openModal: () => void;
+  newModalImg: (image: Image) => void;
+}
+
+export default function imageGallery({
+  images,
+  openModal,
+  newModalImg,
+}: ImageGalleryProps) {
   return (
     <ul className={css.gallery}>
       {images.map((image) => (

@@ -1,10 +1,18 @@
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-hot-toast";
 import css from "./searchBar.module.css";
+import React from "react";
 
-export default function searchImage({ onSubmit }) {
-  const handleSearch = (values, actions) => {
-    if (values.topic === "") {
+interface SearchImageProps {
+  onSubmit: (topic: string) => void;
+}
+
+export default function searchImage({ onSubmit }: SearchImageProps) {
+  const handleSearch = (
+    values: { topic: string },
+    actions: { resetForm: () => void }
+  ) => {
+    if (values.topic.trim() === "") {
       toast.error("Please enter a search term.");
       return;
     }

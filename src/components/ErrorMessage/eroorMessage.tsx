@@ -1,6 +1,7 @@
+import React from "react";
 import css from "./eroorMessage.module.css";
 
-export default function errorMesange() {
+export default function errorMesange(): JSX.Element {
   return (
     <div>
       <p className={css.text}>

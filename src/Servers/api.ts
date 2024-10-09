@@ -1,8 +1,17 @@
 import axios from "axios";
+import { Image } from "../components/App/App.types";
+
+interface searchPhotos {
+  images: Image[];
+  totalPages: number;
+}
 
 const accessKey = "1gIVIxzxLHTsUa4ePPB1HgijWCWZQL8olEwVfgd2_gc";
 
-export default async function searchPhotos(topic, page) {
+export default async function searchPhotos(
+  topic: string,
+  page: number
+): Promise<searchPhotos> {
   const response = await axios.get("https://api.unsplash.com/search/photos", {
     headers: {
       Authorization: `Client-ID ${accessKey}`,
